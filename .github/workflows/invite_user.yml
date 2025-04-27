@@ -1,0 +1,40 @@
+name: Invite User to Organization
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  invite:
+    runs-on: ubuntu-latest
+    if: contains(github.event.issue.title, 'Invite User')
+    steps:
+      - name: Invite user to Organization and Team
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.ADMIN_PAT }}
+          script: |
+            const usernameMatch = context.payload.issue.body.match(/Username:\s*(\S+)/);
+            const teamMatch = context.payload.issue.body.match(/Team:\s*(\S+)/);
+
+            if (!usernameMatch || !teamMatch) {
+              core.setFailed("Username or Team not found in issue body");
+              return;
+            }
+
+            const username = usernameMatch[1];
+            const teamSlug = teamMatch[1];
+
+            console.log(`Inviting ${username} to organization...`);
+
+            await github.request('PUT /orgs/sistema-academico-2025/memberships/' + username, {
+              role: 'member'
+            });
+
+            console.log(`Adding ${username} to team ${teamSlug}...`);
+
+            await github.request('PUT /orgs/sistema-academico-2025/teams/' + teamSlug + '/memberships/' + username, {
+              role: 'member'
+            });
+
+            console.log(`Successfully invited ${username} to team ${teamSlug}`);
