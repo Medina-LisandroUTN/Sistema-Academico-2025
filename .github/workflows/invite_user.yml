@@ -26,19 +26,19 @@ jobs:
             const teamSlug = teamMatch[1];
 
             console.log(`Inviting ${username} to organization...`);
-            console.log(`Target organization: YOUR-ORG`);
+            console.log(`Target organization: sistema-academico-2025`);
             console.log(`Target team: ${teamSlug}`);
             console.log(`Inviting user: ${username}`);
 
             try {
               // Invitar al usuario a la organización
-              await github.request('PUT /orgs/Sistema-Academico-2025/memberships/' + username, {
+              await github.request('PUT /orgs/aistema-academico-2025/memberships/' + username, {
                 role: 'member'
               });
               console.log(`Successfully invited ${username} to organization.`);
               
               // Agregar al equipo
-              await github.request('PUT /orgs/Sistema-Academico-2025/teams/' + teamSlug + '/memberships/' + username, {
+              await github.request('PUT /orgs/sistema-academico-2025/teams/' + teamSlug + '/memberships/' + username, {
                 role: 'member'
               });
               console.log(`Successfully added ${username} to team ${teamSlug}`);
