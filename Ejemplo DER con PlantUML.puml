@@ -1,0 +1,37 @@
+@startuml Ejemplo DER con PlantUML
+
+'Ocultar icono distintivo de la entidad
+hide circle
+
+
+'Definir una entidad con sus atributos
+entity EjemploEntidadUno {
+    PK id: int
+    --
+    ejemploAtributo: string
+
+}
+
+entity EjemploEntidadDos {
+    PK id: int
+    --
+    ejemploAtributo: string
+
+}
+
+entity EjemploEntidadTres {
+    PK id: int
+    --
+    ejemploAtributo: string
+
+}
+
+'Definir una relación entre entidades
+EjemploEntidadUno ||--o{ EjemploEntidadDos
+
+EjemploEntidadUno ||--|| EjemploEntidadTres
+
+EjemploEntidadDos ||--|{ EjemploEntidadTres
+
+
+@enduml
