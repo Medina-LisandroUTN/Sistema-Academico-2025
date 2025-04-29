@@ -1,0 +1,47 @@
+@startuml
+hide circle
+hide empty methods
+
+entity Examen{
+    id <<PK>>
+    nota
+}
+
+entity MesaExamen{
+    id <<PK>>
+    fechaMesaExamen
+    catedra
+
+}
+
+entity Nota{
+    id <<PK>>
+    notaNumerica
+    notaTexto
+}
+
+'La entidad acta y examen se deberian poder absorber ya que son 1 a 1
+'Una acta tiene tomos y un tomo tiene actas???
+entity Acta{
+    id <<PK>>
+    numeroDeActa
+    fechaEmision
+}
+
+entity Tomo{
+    id <<PK>>
+}
+
+entity Folio{
+    id <<PK>>
+}
+
+entity Tribunal{
+    id <<PK>>
+}
+
+entity InscriptoExamen{
+    id <<PK>>
+}
+
+@enduml
