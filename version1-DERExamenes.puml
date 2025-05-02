@@ -1,0 +1,76 @@
+@startuml diagramaDERExamenes
+
+'---Ocultar icono distintivo de la entidad y metodos
+hide circle
+hide methods
+
+'---Definición de entidades ---
+entity Nota {
+    PK id : int
+    notaNumerica : int
+    notaTexto : string
+    descripcion : string
+
+}
+
+entity Tribunal {
+    PK id: int
+    '--idMesaExamen -> duda'
+    '--relacion con docente--
+    idDocente
+}
+
+entity Tomo {
+    PK id : int
+}
+
+entity Folio{
+    PK id : int
+}
+
+entity Acta {
+    PK id : int
+    nroActa : int
+    fechaEmision : date 
+    '-- capacidad: 17 --'
+    capacidad : int 
+    idTomo
+    idFolio
+}
+
+entity MesaExamen {
+    PK id : int
+    fechaExamen : date 
+    idActa
+    '-- otra manera: que en tribunal exista el puntero hacia mesa de examenes -> evitamos cargar un array de docentes'
+    idTribunal
+    '-- relacion con catedra --'
+    idCatedra
+}
+
+entity Examen{
+    PK id : int
+    '-- relación con alumno --'
+    idAlumno
+    idNota
+    idMesaExamen
+}
+
+
+'----Relaciones-----
+'Cero o uno	|o--
+'Uno y solo uno	||--
+'Cero o muchos	o{--
+'Uno o muchos	}|--
+
+
+'---Relacion entre entidades ---
+MesaExamen ||--o{ Examen
+Nota ||--o{ Examen
+Tribunal ||--|{ MesaExamen
+MesaExamen ||--o{ Acta 
+Tomo ||--|{ Acta
+Folio ||--|{ Acta
+
+
+@enduml
