@@ -1,0 +1,161 @@
+@startuml Catedra
+
+entity Alumno{
+    -id<<PK>>
+    -legajo
+    -documento
+    -catedraCursadas
+    -catedrasAprobadas
+    -idCxC<<FK>>
+}
+
+entity Aula{
+    -id<<PK>>
+    -numero
+    -capacidad
+}
+''Aula por No docente
+entity AxND{
+    -id<<PK>>
+    -idAula<<FK>>
+    -idNoDocente<<FK>>
+
+}
+
+entity Catedra{
+    -id<<PK>>
+    -descripcion
+    -idPlanEstudio<<FK>>
+    -idTurnoDeCursado<<FK>>
+}
+
+''Catedra por alumno
+entity CxAl{
+    -id<<PK>>
+    -idCatedra<<FK>>
+    -idAlumno<<FK>>
+}
+''Catedra por docente
+entity CxD{
+    -id<<PK>
+    -idDocente<<FK>>
+    -idCatedra<<FK>>
+}
+''Comision por aula
+entity CxA{
+    -id<<PK>>
+    -idComision<<FK>>
+    -idAula<<FK>>
+}
+''Catedra por Comisión
+entity CxC{
+    -id<<PK>>
+    -idCatedra<<FK>>
+    -idComision<<FK>>
+}
+''Catedra por Plan de Estudio
+entity CxPE{
+    -id<<PK>>
+    -idCatedra<<FK>>
+    -idPlanEstudio<<FK>>
+
+}
+entity Comision {
+    -id<<PK>>
+    -descripcion
+}
+
+entity Departamento{
+    -id<<PK>>
+    -nombre
+    -descripcion
+}
+''Departamento por Docente
+entity DxD{
+    -id<<PK>>
+    -idDepartamento<<FK>>
+    -idDocente<<FK>>
+}
+entity Docente{
+    -id<<PK>>
+    -nombre
+    -apellido
+    -legajo
+}
+entity InstanciaEvaluativa{
+    -id <<PK>>
+    -fechaEvaluacion
+    -horaInicioEvaluacion
+    -horaFinEvaluacion
+    -idTipoEvaluacion<<FK>>
+}
+
+''InstanciaEvaluativa por Alumno
+entity IExA{
+    -id<<PK>>
+    -idInstanciaEvaluativa<<FK>>
+    -idAlumno<<FK>>
+}
+
+entity TipoEvaluacion{
+    -id<<PK>>
+    -nombre
+    -descripcion
+}
+
+entity TipoDocente{
+    -id<<PK>>
+    -nombre
+    -descripcion
+}
+
+entity NoDocente{
+    -id<<PK>>
+    -nombre
+    -apellido
+    -legajo
+}
+entity PlanEstudio{
+    -id<<PK>>
+    -añoPlan
+    -descripcion
+}
+entity TurnoDeCursado {
+    -id<<PK>>
+    -nombre
+    -descripcion
+}
+
+Catedra ||--|{ CxC
+Catedra ||--|{ CxAl
+Catedra ||--|{ CxPE
+Catedra ||--|{ CxD
+Catedra }|--|| TurnoDeCursado
+Catedra ||--|{ PlanEstudio
+Comision ||--|{ CxA
+Comision ||--|{ CxD
+Comision ||-|{ CxC
+
+TipoDocente ||--|{ Docente
+
+Aula ||--|{ CxA
+Aula ||--|{ AxND
+
+NoDocente ||--|{ AxND
+
+
+PlanEstudio ||--|{ CxPE
+Alumno ||--|{ CxAl
+Alumno ||--|{ IExA
+
+Departamento ||--|{ DxD
+
+Docente ||-|{ DxD
+Docente ||--|{ CxD
+
+InstanciaEvaluativa ||--{ IExA
+InstanciaEvaluativa }|--||TipoEvaluacion
+
+
+
+@enduml
