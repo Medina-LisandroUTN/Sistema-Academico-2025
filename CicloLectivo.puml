@@ -42,6 +42,10 @@ entity Correlativa {
   +materiaRequisito: int <<FK>> 'Materia requisito
 }
 
+entity Docente {
+  +idDocente: int <<PK>>
+}
+
 Especialidad }|..|| PlanEstudio
 Materia }|..|| PlanEstudio
 Materia }|..|| TipoMateria
