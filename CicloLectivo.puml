@@ -1,0 +1,53 @@
+@startuml CicloLectivo
+
+entity Especialidad {
+  +idEspecialidad: int <<PK>>
+  +nombre: string
+  +tipo: int
+  +planEstudio: int <<FK>>
+  +duracionEstimada: int
+}
+
+entity TipoEspecialidad {
+  +idTipoEspecialidad: int <<PK>>
+  +nombre: string
+}
+
+entity Materia {
+  +idMateria: int <<PK>>
+  +nombre: string
+  cuatrimestre: int
+  +año: int
+  +tipoMateria: int <<FK>>
+  +codigo: int
+  +planEstudio: string <<FK>>
+  +duracionEstimada: int
+}
+
+entity TipoMateria {
+  +idTipoMateria: int <<PK>>
+  +nombre: string
+}
+
+entity PlanEstudio {
+  +idPlan: int <<PK>>
+  +nombre: string
+  +año: int
+  +duracionEstimada: int
+}
+
+entity Correlativa {
+  +idCorrelativa: int <<PK>>
+  +materia: int <<FK>> 'Materia principal
+  +materiaRequisito: int <<FK>> 'Materia requisito
+}
+
+Especialidad }|..|| PlanEstudio
+Materia }|..|| PlanEstudio
+Materia }|..|| TipoMateria
+Especialidad }|..|| TipoEspecialidad
+Materia ||--o{ Correlativa : "correlativa"
+Correlativa }|..|| Materia : "materia"
+Correlativa }|..|| Materia : "materia_requisito"
+
+@enduml
