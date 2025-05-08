@@ -1,0 +1,47 @@
+@startuml PlanAcademico
+hide circle
+
+entity PlanAcademico{
+    id<<PK>>
+}
+
+entity DetallePlan{
+    id<<PK>>
+}
+
+entity EstadoPlan{
+    id<<PK>>
+}
+
+entity Materia{
+    id<<PK>>
+}
+
+entity Correlativa{
+    id<<PK>>
+}
+
+entity TipoCorrelativa{
+    id<<PK>>
+}
+
+entity Carrera{
+    id<<PK>>
+}
+
+entity Regimen {
+    id<<PK>>
+}
+
+Carrera ||-d-|{ PlanAcademico
+
+PlanAcademico ||--|{ DetallePlan
+PlanAcademico }|-r-|| EstadoPlan
+
+DetallePlan ||-r-|{ Materia
+DetallePlan ||-d-|{ Correlativa
+DetallePlan }|-l-|| Regimen
+
+Correlativa }|-l-|| TipoCorrelativa
+Correlativa }|-r-|| Materia
+@enduml

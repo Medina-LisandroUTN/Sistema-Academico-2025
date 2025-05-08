@@ -1,0 +1,19 @@
+@startuml SeminarioIngreso
+hide circle
+
+entity SeminarioIngreso {
+    id<<PK>>
+}
+
+entity DetalleSeminarioIngreso {
+    id<<PK>>
+}
+
+entity TipoSeminarioIngreso {
+    id<<PK>>
+}
+
+SeminarioIngreso ||--|{ DetalleSeminarioIngreso
+SeminarioIngreso }|-r-|| TipoSeminarioIngreso
+
+@enduml
