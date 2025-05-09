@@ -3,45 +3,82 @@ hide circle
 
 entity PlanAcademico{
     id<<PK>>
+    nombre
+    fechaInicioVigencia
+    estadoPlan<<FK>>
+    carrera<<FK>>
 }
 
 entity DetallePlan{
     id<<PK>>
+    nivelMateria
+    matera<<FK>>
+    regimen<<FK>>
 }
 
 entity EstadoPlan{
     id<<PK>>
+    nombre
 }
 
 entity Materia{
     id<<PK>>
+    nombre
+    tipoMateria<<FK>>
 }
 
 entity Correlativa{
     id<<PK>>
+    materia<<FK>>
+    tipoCorrelativa<<FK>>
 }
 
 entity TipoCorrelativa{
     id<<PK>>
+    nombre
 }
 
 entity Carrera{
     id<<PK>>
+    nombre
+    facultadRegional<<FK>>
 }
 
 entity Regimen {
     id<<PK>>
+    nombre
+}
+
+entity TipoMateria {
+    id<<PK>>
+    nombre
+}
+
+entity FacultadRegional {
+    id<<PK>>
+    nombre
+    localidad<FK>
+}
+
+entity Localidad {
+    id<<PK>>
+    nombre  
 }
 
 Carrera ||-d-|{ PlanAcademico
 
-PlanAcademico ||--|{ DetallePlan
+PlanAcademico ||-d-|{ DetallePlan
 PlanAcademico }|-r-|| EstadoPlan
 
-DetallePlan ||-r-|{ Materia
-DetallePlan ||-d-|{ Correlativa
+DetallePlan ||-d-|{ Materia
 DetallePlan }|-l-|| Regimen
 
 Correlativa }|-l-|| TipoCorrelativa
-Correlativa }|-r-|| Materia
+Correlativa }o-r-|| Materia
+
+Materia }|-r-|| TipoMateria
+
+Carrera }|-l-|| FacultadRegional
+
+FacultadRegional }|-l-|| Localidad
 @enduml
