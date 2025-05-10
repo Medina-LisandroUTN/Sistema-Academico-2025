@@ -1,0 +1,114 @@
+@startuml
+
+Entity Catedra{
+    id : PK
+    nombre
+    descripcion
+    Docente: FK
+    InstanciaEvaluativa: FK
+    Comision:FK
+}
+Entity PlanEstudio{
+    id: PK
+    añoPlan
+    descripcion
+    Catedra:FK
+}
+Entity Aula{
+    id : PK
+    numero
+    ala
+    capacidad
+    Estado: FK 
+    Asistencia:FK
+}
+
+Entity Asistencia{
+    id : PK
+    fecha
+    hora
+    Alumno:FK
+    NoDocente:FK
+}
+
+Entity NoDocente{
+    id : PK
+    nombre
+    apellido
+    dni
+}
+
+Entity Docente{
+    id : PK
+    nombre
+    apellido
+    dni
+    mail
+    horario
+    titulo
+}
+
+Entity Alumno{
+    id : PK
+    nombre
+    apellido
+    dni
+    mail 
+    añoIngreso
+    añoLectivo
+    Estado:FK
+    InstanciaEvaluativa:FK
+}
+
+Entity TurnoDeCursada{
+    id : PK
+    horaInicio
+    horaFin
+    diasDeSemana
+}
+
+Entity Comision{
+    id : PK
+    numero
+    Alumno: FK
+    Aula: FK
+    Docente:FK
+    TurnoDeCursada:FK
+}
+
+Entity InstanciaEvaluativa{
+    id : PK
+    nota
+    descripcion
+}
+
+Entity Departamento{
+    id: PK
+    nombre
+    descripcion
+    Catedra: FK  
+}
+
+Entity Estado {
+    id : PK
+    nombre
+    descripcion
+}
+
+
+Alumno }|--|| Estado
+Catedra ||--|{ Docente
+Catedra ||--|{ InstanciaEvaluativa
+Aula }|--|| Estado
+Aula ||--|{ Asistencia
+Asistencia ||--|{ Alumno
+Asistencia ||--|{NoDocente
+Comision ||--|{ Alumno
+Comision ||--|{ Aula
+Comision||--|{ TurnoDeCursada
+Catedra ||--|{ Comision
+Alumno ||--|{ InstanciaEvaluativa
+Departamento ||--|{ Catedra
+PlanEstudio||--|{Catedra
+
+@enduml
