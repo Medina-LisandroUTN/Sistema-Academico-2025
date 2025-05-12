@@ -1,0 +1,81 @@
+@startuml CicloLectivo
+entity CicloLectivo {
+    +idCicloLectivo: int <<PK>>
+    +fechaInicio: date
+    +fechaFinal: date
+    +fechaInicioRecesoInvierno: date
+    +fechaFinRecesoInvierno: date
+    +fechaInicioCursado: date
+    +fechaFinCursado: date
+    +descripcion: string 
+}
+entity DetalleCarreras {
+    +id: int <<PK>>
+    +idCicloLectivo: int <<FK>>
+    +idCarrera: int <<FK>>
+}
+entity Carrera {
+    +idCarrera: int <<PK>>
+    +nombre: string
+}
+entity PlanDeEstudio {
+    +idPlanDeEstudio: int <<PK>>
+    +nombre: string
+    +idCarrera: int <<FK>>
+}
+entity Nivel {
+    +idNivel: int <<PK>>
+    +idPlanDeEStudio: int <<FK>> 
+}
+entity Materia {
+    +idMateria: int <<PK>>
+    +nombre: string
+    +IdDocente: int <<FK>>
+    +idDepartamento: int <<FK>>
+    +idComision: int <<FK>>
+    +idNivel: int <<FK>>
+}
+entity Profesor {
+    +idProfesor: int <<PK>>
+}
+entity Departamento {
+    +idDepartamento: int <<PK>>
+    +nombre: string
+}
+entity Comision {
+    +idComision: int <<PK>>
+    +nombre: string
+}
+entity PeriodoExamen {
+    +idPeriodoExamen: int <<PK>>
+    +fechaInicio: date
+    +fechaFin: date
+    +fechaInicioInscripcion: date
+    +fechaFinInscripcion: date
+    +esMovil: bool
+    +idCicloLectivo: int <<FK>>
+}
+entity FechaImportante {
+    +idFechaImportante: int <<PK>>
+    +fecha: date
+    +descripcion: string
+    +idCicloLectivo: int <<FK>>
+}  
+entity PeriodoEncuestaDocente {
+    +idPeriodoEncuestaDocente: int <<PK>>
+    +fechaInicio: date
+    +fechaFin: date
+    +idCicloLectivo: int <<FK>>
+}
+PeriodoEncuestaDocente }|..||CicloLectivo
+PeriodoExamen }|..||CicloLectivo
+FechaImportante }|..||CicloLectivo
+DetalleCarreras }|..||CicloLectivo
+DetalleCarreras }|..||Carrera
+PlanDeEstudio }|..||Carrera
+Nivel }|..|| PlanDeEstudio
+Materia }|..||Nivel
+Materia }|..||Profesor 
+Materia }|..||Comision
+Materia }|..||Departamento  
+@enduml
