@@ -1,0 +1,111 @@
+@startuml
+
+entity Docente {
+  * legajoDocente : int
+  --
+  nombre : string
+  apellido : string
+  dni : string
+  correo : string
+  dedicacion : string
+}
+
+entity Rol {
+  * idRol : int
+  --
+  nombre : string
+}
+
+entity DocenteXCatedra {
+  * idDocenteXCatedra : int
+  --
+  rol : int
+  docente : int
+  catedra : int
+}
+
+entity Catedra {
+  * codigo : int
+  --
+  nombre : string
+  cantHoras : int
+  comision: int
+}
+
+entity CicloLectivo {
+  * idCiclo : int
+  --
+  calendarioAcademico : string
+  catedra : int
+}
+
+entity CatedraXEspecialidad {
+  * idCatedraXEspecialidad : int
+  --
+  año : int
+  catedra : int
+  especialidad : int
+}
+
+entity Especialidad {
+  * idEspecialidad : int
+  --
+  nombre : string
+  planDeEstudio : int
+  departamento : string
+}
+
+entity PlanDeEstudio {
+  * idPlan : int
+  --
+  añoCreacion : int
+  especialidad : int
+}
+
+
+entity Comision {
+  * idComision : int
+  --
+  nro : int
+  aula : int
+}
+
+entity Aula {
+  * idAula : int
+  --
+  numero : int
+  capacidad : int
+  ala : string
+}
+
+entity Alumno {
+  * legajoAlumno : int
+  --
+  nombre : string
+  apellido : string
+  dni : string
+  correo : string
+  añoIngreso : int
+}
+
+entity AlumnoXComision {
+  * idAlumnoXComision : int
+  --
+  alumno : int
+  comision : int
+}
+
+' Relaciones (modificadas para quitar el "0")
+Docente ||--{ DocenteXCatedra
+Rol ||--{ DocenteXCatedra
+Catedra ||--{ DocenteXCatedra
+Catedra ||--{ CicloLectivo
+Catedra ||--{ CatedraXEspecialidad
+Especialidad ||--{ CatedraXEspecialidad
+Especialidad ||--{ PlanDeEstudio
+Aula ||--{ Comision
+Comision ||--{ AlumnoXComision
+Alumno ||--{ AlumnoXComision
+Catedra ||--{ Comision
+
+@enduml
