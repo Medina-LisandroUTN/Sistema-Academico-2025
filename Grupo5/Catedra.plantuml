@@ -1,160 +1,170 @@
 @startuml Catedra
-hide circel
-entity Alumno{
-    -id<<PK>>: SERIAL
-    -legajo: INT
-    -documento: INT
-    -catedraCursadas: INT
-    -catedrasAprobadas: INT
-    -nombre : STRING
-    -apellido : STRING
-    -correo : STRING
-    -añoIngreso : INT
+hide circle
+entity Alumno {
+    - id <<PK>>: SERIAL
+    - legajo: INTEGER
+    - documento: INTEGER
+    - catedraCursadas: INTEGER
+    - catedrasAprobadas: INTEGER
+    - nombre: VARCHAR
+    - apellido: VARCHAR
+    - correo: VARCHAR
+    - añoIngreso: INTEGER
 }
 
-entity Aula{
-    -id<<PK>>: SERIAL
-    -numero: INT
-    -capacidad: INT
-    -ala: STRING
-}
-''Aula por No docente
-entity AxND{
-    -id<<PK>>: SERIAL
-    -idAula<<FK>>: INT
-    -idNoDocente<<FK>>: INT
+entity Aula {
+    - id <<PK>>: SERIAL
+    - numero: INTEGER
+    - capacidad: INTEGER
+    - ala: VARCHAR
 }
 
-entity Catedra{
-    -id<<PK>>: SERIAL
-    -descripcion: VARCHAR
-    -idPlanEstudio<<FK>>: INT
-    -idTurnoDeCursado<<FK>>: INT
+entity Catedra {
+    - id <<PK>>: SERIAL
+    - descripcion: VARCHAR
+    - idPlanEstudio <<FK>>: INTEGER
+    - idTurnoDeCursado <<FK>>: INTEGER
 }
 
-''Catedra por alumno
-entity CxAl{
-    -id<<PK>>: SERIAL
-    -idCatedra<<FK>>: INT
-    -idAlumno<<FK>>: INT
-}
-''Catedra por docente por tipo docente
-entity CxDxTD{
-    -id<<PK>: SERIAL
-    -idDxTD<<FK>>: INT
-    -idCatedra<<FK>>: INT
-    -idTipoDocente<<FK>>: INT
-}
-''Comision por aula
-entity CxA{
-    -id<<PK>>: SERIAL
-    -idComision<<FK>>: INT
-    -idAula<<FK>>: INT
-}
-''Catedra por Comisión
-entity CxC{
-    -id<<PK>>: SERIAL
-    -idCatedra<<FK>>: INT
-    -idComision<<FK>>: INT
-}
-''Catedra por Plan de Estudio
-entity CxPE{
-    -id<<PK>>: SERIAL
-    -idCatedra<<FK>>: INT
-    -idPlanEstudio<<FK>>: INT
-}
 entity Comision {
-    -id<<PK>>: SERIAL
-    -descripcion: VARCHAR
+    - id <<PK>>: SERIAL
+    - descripcion: VARCHAR
 }
-entity Departamento{
-    -id<<PK>>: SERIAL
-    -nombre: VARCHAR
-    -descripcion: VARCHAR
+
+entity Departamento {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - descripcion: VARCHAR
 }
-''Departamento por Docente
-entity DxD{
-    -id<<PK>>: SERIAL
-    -idDepartamento<<FK>>: INT
-    -idDocente<<FK>>: INT
+
+entity Docente {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - apellido: VARCHAR
+    - legajo: INTEGER
 }
-entity Docente{
-    -id<<PK>>: SERIAL
-    -nombre: VARCHAR
-    -apellido: VARCHAR
-    -legajo: INT
+
+entity InstanciaEvaluativa {
+    - id <<PK>>: SERIAL
+    - fechaEvaluacion: DATE
+    - horaInicioEvaluacion: TIME
+    - horaFinEvaluacion: TIME
+    - idTipoEvaluacion <<FK>>: INTEGER
 }
-entity InstanciaEvaluativa{
-    -id <<PK>>: SERIAL
-    -fechaEvaluacion: DATE
-    -horaInicioEvaluacion: TIME?
-    -horaFinEvaluacion: TIME?
-    -idTipoEvaluacion<<FK>>: INT
+
+entity NoDocente {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - apellido: VARCHAR
+    - legajo: INTEGER
 }
-''InstanciaEvaluativa por Alumno
-entity IExA{
-    -id<<PK>>: SERIAL
-    -idInstanciaEvaluativa<<FK>>: INT
-    -idAlumno<<FK>>: INT
+
+entity PlanEstudio {
+    - id <<PK>>: SERIAL
+    - añoPlan: DATE
+    - descripcion: VARCHAR
 }
-entity TipoEvaluacion{
-    -id<<PK>>: SERIAL
-    -nombre: VARCHAR
-    -descripcion: VARCHAR
+
+entity TipoDocente {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - descripcion: VARCHAR
 }
-entity TipoDocente{
-    -id<<PK>>: SERIAL
-    -nombre: VARCHAR
-    -descripcion: VARCHAR
+
+entity TipoEvaluacion {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - descripcion: VARCHAR
 }
-entity NoDocente{
-    -id<<PK>>: SERIAL
-    -nombre: VARCHAR
-    -apellido: VARCHAR
-    -legajo: INT
-}
-entity PlanEstudio{
-    -id<<PK>>: SERIAL
-    -añoPlan: DATE
-    -descripcion: VARCHAR
-}
+
 entity TurnoDeCursado {
-    -id<<PK>>: SERIAL
-    -nombre: VARCHAR
-    -descripcion: VARCHAR
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - descripcion: VARCHAR
 }
+
+entity AulaxNoDocente {
+    - id <<PK>>: SERIAL
+    - idAula <<FK>>: INTEGER
+    - idNoDocente <<FK>>: INTEGER
+}
+
+entity CatedraxAlumno {
+    - id <<PK>>: SERIAL
+    - idCatedra <<FK>>: INTEGER
+    - idAlumno <<FK>>: INTEGER
+}
+
+entity CatedraxComision {
+    - id <<PK>>: SERIAL
+    - idCatedra <<FK>>: INTEGER
+    - idComision <<FK>>: INTEGER
+}
+
 entity CatedraxCorrelativa {
-    -id<<PK>>
-    -idCatedra<<FK>>
-    ' warcrime?
-    -idCatedraCorrelativa<<FK>>
+    - id <<PK>>: SERIAL
+    - idCatedra <<FK>>: INTEGER
+    - idCatedraCorrelativa <<FK>>: INTEGER
 }
 
-Catedra ||--|{ CxC
-Catedra ||--|{ CxAl
-Catedra ||--|{ CxPE
-Catedra ||--|{ CxDxTD
-Catedra ||--|{ CatedraxCorrelativa
+entity CatedraxDocentexTipoDocente {
+    - id <<PK>>: SERIAL
+    - idDocentexTipoDocente <<FK>>: INTEGER
+    - idCatedra <<FK>>: INTEGER
+    - idTipoDocente <<FK>>: INTEGER
+}
+
+entity CatedraxPlanEstudio {
+    - id <<PK>>: SERIAL
+    - idCatedra <<FK>>: INTEGER
+    - idPlanEstudio <<FK>>: INTEGER
+}
+
+entity ComisionxAula {
+    - id <<PK>>: SERIAL
+    - idComision <<FK>>: INTEGER
+    - idAula <<FK>>: INTEGER
+}
+
+entity DepartamentoxDocente {
+    - id <<PK>>: SERIAL
+    - idDepartamento <<FK>>: INTEGER
+    - idDocente <<FK>>: INTEGER
+}
+
+entity InstanciaEvaluativaxAlumno {
+    - id <<PK>>: SERIAL
+    - idInstanciaEvaluativa <<FK>>: INTEGER
+    - idAlumno <<FK>>: INTEGER
+}
+
+InstanciaEvaluativa }|--|| TipoEvaluacion
 Catedra }|--|| TurnoDeCursado
-Comision ||--|{ CxA
-Comision ||--|{ CxC
 
-Aula ||--|{ CxA
-Aula ||--|{ AxND
+AulaxNoDocente }|--|| Aula
+AulaxNoDocente }|--|| NoDocente
 
-NoDocente ||--|{ AxND
+CatedraxAlumno }|--|| Alumno
+CatedraxAlumno }|--|| Catedra
 
-PlanEstudio ||--|{ CxPE
-Alumno ||--|{ CxAl
-Alumno ||--|{ IExA
+CatedraxComision }|--|| Catedra
+CatedraxComision }|--|| Comision
 
-Departamento ||--|{ DxD
+CatedraxCorrelativa }|--|| Catedra
 
-Docente ||--|{ DxD
-Docente ||-|{ CxDxTD
-TipoDocente ||-|{ CxDxTD
+CatedraxDocentexTipoDocente }|--|| Catedra
+CatedraxDocentexTipoDocente }|--|| Docente
+CatedraxDocentexTipoDocente }|--|| TipoDocente
 
-InstanciaEvaluativa ||--{ IExA
-InstanciaEvaluativa }|--||TipoEvaluacion
+CatedraxPlanEstudio }|--|| Catedra
+CatedraxPlanEstudio }|--|| PlanEstudio
 
+ComisionxAula }|--|| Aula
+ComisionxAula }|--|| Comision
+
+DepartamentoxDocente }|--|| Departamento
+DepartamentoxDocente }|--|| Docente
+
+InstanciaEvaluativaxAlumno }|--|| Alumno
+InstanciaEvaluativaxAlumno }|--|| InstanciaEvaluativa
 @enduml
