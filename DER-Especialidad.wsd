@@ -1,0 +1,88 @@
+@startuml Especialidad
+hide circle
+hide empty method
+
+' Entidades
+
+entity Especialidad {
+    id: int <<PK>>
+    nombre: string
+    aniosDuracion: int
+    idFacultad: int <<FK>>
+    idPlanEstudio: int <<FK>>
+}
+
+entity FacultadRegional {
+    id: int <<PK>>
+    nombre: string
+    idLocalidad: int <<FK>>
+}
+
+entity Localidad {
+    id: int <<PK>>
+    nombre: string
+}
+
+entity PlanEstudio {
+    id: int <<PK>>
+    anioInicio: Date
+    idEstado: int <<FK>>
+}
+
+entity EstadoPlan {
+    id: int <<PK>>
+    nombre: string
+}
+
+entity Materia {
+    id: int <<PK>>
+    nombre: string
+    idBloqueCurricular <<FK>>
+}
+
+entity BloqueCurricular {
+    id: int <<PK>>
+    nombre: string
+    descripcion: string
+}
+
+entity Correlativa {
+    id: int <<PK>>
+    idMateria: int <<FK>>
+    tipoCorrelatividad: int <<FK>>
+}
+
+entity tipoCorrelatividad {
+    id: int <<PK>>
+    tipo: string
+}
+
+entity MateriaPorPlan {
+    ' DetallePlan
+    id: int <<PK>>
+    idMateria: int <<FK>>
+    idPlanEstudio: int <<FK>>
+    idTipoMateria: int <<FK>>
+    nivel: int
+    duracion: string
+}
+
+entity TipoMateria {
+    id: int <<PK>>
+    tipo: string
+}
+
+' Relaciones
+
+FacultadRegional ||-l-|{ Especialidad
+Localidad ||--|| FacultadRegional
+
+PlanEstudio }|--|| Especialidad
+EstadoPlan ||--|{ PlanEstudio
+
+MateriaPorPlan }|-r-|| PlanEstudio
+MateriaPorPlan }|--|| Materia
+Materia }|-l-|| BloqueCurricular
+Materia ||--|{ Correlativa
+Correlativa }|--|| tipoCorrelatividad
+MateriaPorPlan }|-l-|| TipoMateria

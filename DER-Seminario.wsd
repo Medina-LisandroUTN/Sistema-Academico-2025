@@ -1,0 +1,50 @@
+@startuml Seminario de Ingreso
+hide circle
+hide empty method
+
+' Entidades
+
+entity SeminarioIngreso {
+    id: int <<PK>>
+    anioLectivo: int
+    cuposDisponibles: int
+    fechaInicio: Date
+    fechaFin: Date
+    idModalidad: int <<FK>>
+    idEstado: int <<FK>>
+}
+
+entity ModalidadSeminario {
+    id: int <<PK>>
+    nombre: string
+    '-- Ej: "Presencial", "Virtual", "Híbrido"
+}
+
+entity MateriaEnSeminario {
+    id: int <<PK>>
+    idSeminario: int <<FK>>
+    idMateria: int <<FK>>
+    horasCatedra: int
+}
+
+entity EstadoSeminario {
+    id: int <<PK>>
+    nombre: string   
+    '-- Ej: "En curso", "Finalizado", "Programado"
+}
+
+entity Materia {
+    id: int <<PK>>
+    nombre: string
+    descripcion: string
+}
+
+
+' Relaciones
+
+SeminarioIngreso }o-r-|| ModalidadSeminario 
+SeminarioIngreso }o-l-|| EstadoSeminario
+SeminarioIngreso ||--|{ MateriaEnSeminario
+MateriaEnSeminario }o-r-|| Materia
+
+@endumuml
