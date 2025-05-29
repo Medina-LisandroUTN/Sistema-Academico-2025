@@ -1,0 +1,56 @@
+@startuml diagrama_alumno
+
+entity "Personas" as Personas {
+  +idPersona : int <<PK>>
+  nombre : varchar
+  apellido : varchar
+  dni : string
+  edad : int
+}
+
+entity "Alumnos" as Alumnos {
+  +idAlumno : int <<PK>>
+  legajoAlumno : varchar
+  cantAñosCursando : int
+  persona : int <<FK>>
+}
+
+entity "NotasAlumno" as NotasAlumno {
+  +idNotasAlumno : int <<PK>>
+  nota : float
+  condicionAcademica : int <<FK>>
+  alumno : int <<FK>>
+}
+
+entity "CondiciónAcadémica" as CondicionAcademica {
+  +idCondiciónAcadémica : int <<PK>>
+  nombre : varchar
+  descripción : varchar
+}
+
+entity "AsistenciaPorAlumno" as AsistenciaPorAlumno {
+  +idAsistenciaPorAlumno : int <<PK>>
+  estadoAsitencia : bool
+  alumno : int <<FK>>
+  condicionAsistencia : int <<FK>>
+}
+
+entity "CondiciónAsistencia" as CondicionAsistencia {
+  +idCondiciónAsistencia : int <<PK>>
+  nombre : varchar
+  descripción : varchar
+}
+
+entity "DetalleAsistencia" as DetalleAsistencia {
+  +idDetalleAsistencia : int <<PK>>
+  asistenciaPorAlumno : int <<FK>>
+}
+
+Personas ||--o{ Alumnos : persona
+Alumnos ||--o{ NotasAlumno : alumno
+CondicionAcademica ||--o{ NotasAlumno : condicionAcademica
+Alumnos ||--o{ AsistenciaPorAlumno : alumno
+CondicionAsistencia ||--o{ AsistenciaPorAlumno : condicionAsistencia
+AsistenciaPorAlumno ||--o{ DetalleAsistencia : asistenciaPorAlumno
+
+@enduml
