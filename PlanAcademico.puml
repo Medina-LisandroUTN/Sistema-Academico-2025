@@ -11,8 +11,8 @@ entity PlanAcademico{
 
 entity DetallePlan{
     id<<PK>>
-    nivelMateria
-    matera<<FK>>
+    nivelCatedra
+    catedra<<FK>>
     regimen<<FK>>
 }
 
@@ -21,15 +21,15 @@ entity EstadoPlan{
     nombre
 }
 
-entity Materia{
+entity Catedra{
     id<<PK>>
     nombre
-    tipoMateria<<FK>>
+    tipoCatedra<<FK>>
 }
 
 entity Correlativa{
     id<<PK>>
-    materia<<FK>>
+    catedra<<FK>>
     tipoCorrelativa<<FK>>
 }
 
@@ -49,7 +49,7 @@ entity Regimen {
     nombre
 }
 
-entity TipoMateria {
+entity TipoCatedra {
     id<<PK>>
     nombre
 }
@@ -70,13 +70,13 @@ Carrera ||-d-|{ PlanAcademico
 PlanAcademico ||-d-|{ DetallePlan
 PlanAcademico }|-r-|| EstadoPlan
 
-DetallePlan ||-d-|{ Materia
+DetallePlan ||-d-|{ Catedra
 DetallePlan }|-l-|| Regimen
 
 Correlativa }|-l-|| TipoCorrelativa
-Correlativa }o-r-|| Materia
+Correlativa }o-r-|| Catedra
 
-Materia }|-r-|| TipoMateria
+Catedra }|-r-|| TipoCatedra
 
 Carrera }|-l-|| FacultadRegional
 
