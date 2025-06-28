@@ -387,6 +387,8 @@ Docente ||--o{Tribunal
 
 InstanciaExamen }o--|| Aula
 
+Detalle_Examen }|--|| Alumno
+
 
 SeminarioIngreso ||--|{ DetalleSeminarioIngreso
 SeminarioIngreso }|--|| TipoSeminarioIngreso
