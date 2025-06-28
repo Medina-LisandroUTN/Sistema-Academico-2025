@@ -211,7 +211,7 @@ entity InstanciaExamen {
     '-- relacion con catedra --'
     -idCatedra <<FK>>:INTEGER
     -fechaHora: DATE
-    -idTurno <<FK>>:INTEGER
+    -idPeriodoExamen <<FK>>:INTEGER
     -idTribunal <<FK>>:INTEGER
     -idAula <<FK>>: INTEGER
 }
@@ -223,8 +223,8 @@ entity Detalle_Examen{
     -idAlumno <<FK>>:INTEGER
     -idNotaNumerica <<FK>>:INTEGER
     -idInstanciaExamen <<FK>>:INTEGER
-    -idTurno <<FK>>: INTEGER
     -fechaExamen: DATE
+    -idActa <<FK>>:INTEGER
 }
 
 'Seminario ingreso
