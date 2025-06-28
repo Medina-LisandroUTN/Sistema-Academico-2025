@@ -1,0 +1,84 @@
+@startuml sistema
+'---Ocultar icono distintivo de la entidad y metodos
+hide circle
+hide methods
+!define primaryKey(x) 🔑x
+!define foreignKey(x) 🔗x
+!define pkfk(x) 🔑🔗x
+
+'---Definición de entidades ---
+entity Nota {
+    primaryKey(notaNumerica : int)
+    notaTexto : string
+    descripcion : string
+
+}
+
+
+entity Acta {
+    primaryKey(folio + tomo)
+    fechaEmision : date 
+    capacidad : int 
+    foreignKey(idInstanciaExamen)
+    folio: int
+    tomo: int
+}
+
+entity Tribunal {
+    primaryKey(id: int)
+    '-- Esto ver diagrama de quienes modelan profesores, si no iría foreignKey(idProfesor)
+    foreignKey(presidente)
+    foreignKey(primerVocal)
+    foreignKey(segundoVocal)
+}
+
+
+entity InstanciaExamen {
+    primaryKey(id : int) 
+    '-- relacion con catedra --'
+    foreignKey(idCatedra)
+    fechaHora: date
+    foreignKey(idTurno)
+    foreignKey(idTribunal)
+    foreignKey(idAula: int) 
+}
+
+'incripto examen - detalle de examen
+entity Detalle_Examen{
+    primaryKey(idAlumno + idInstanciaExamen)
+    '-- relación con alumno --'
+    foreignKey(idAlumno)
+    foreignKey(idNotaNumerica)
+    foreignKey(idInstanciaExamen)
+    foreignKey(idTurno: int)
+    fechaExamen: date
+}
+
+entity Turno{
+    primaryKey(id: int)
+    fechaInicioInscripcion: date
+    fechaFinInscripcion: date
+    foreignKey(idCicloLectivo) 
+}
+
+
+'----Relaciones-----
+'Cero o uno    |o--
+'Uno y solo uno    --
+'Cero o muchos    o{--
+'Uno o muchos    }|--
+
+
+'---Relacion entre entidades ---
+
+Nota ||--o{ Detalle_Examen
+Detalle_Examen }|--|| InstanciaExamen
+Detalle_Examen }|--|| Acta
+ 
+
+
+Tribunal ||--|{ InstanciaExamen
+Turno ||--|{ InstanciaExamen
+Acta }|--||InstanciaExamen 
+
+@enduml

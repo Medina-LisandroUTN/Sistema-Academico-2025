@@ -1,0 +1,396 @@
+@startuml Sistema Academico
+hide circle
+entity Alumno {
+    - id <<PK>>: SERIAL
+    - legajo: INTEGER
+    - documento: INTEGER
+    - catedraCursadas: INTEGER
+    - catedrasAprobadas: INTEGER
+    - nombre: VARCHAR
+    - apellido: VARCHAR
+    - correo: VARCHAR
+    - añoIngreso: INTEGER
+}
+
+entity Aula {
+    - id <<PK>>: SERIAL
+    - numero: INTEGER
+    - capacidad: INTEGER
+    - ala: VARCHAR
+}
+
+entity Catedra {
+    - id <<PK>>: SERIAL
+    - descripcion: VARCHAR
+    - idPlanEstudio <<FK>>: INTEGER
+    - idTurnoDeCursado <<FK>>: INTEGER
+}
+
+entity Comision {
+    - id <<PK>>: SERIAL
+    - descripcion: VARCHAR
+}
+
+entity Departamento {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - descripcion: VARCHAR
+}
+
+entity Docente {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - apellido: VARCHAR
+    - legajo: INTEGER
+}
+
+entity InstanciaEvaluativa {
+    - id <<PK>>: SERIAL
+    - fechaEvaluacion: DATE
+    - horaInicioEvaluacion: TIME
+    - horaFinEvaluacion: TIME
+    - idTipoEvaluacion <<FK>>: INTEGER
+}
+
+entity Bedel {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - apellido: VARCHAR
+    - legajo: INTEGER
+}
+
+entity PlanEstudio {
+    -id <<PK>>: SERIAL
+    -añoPlan: DATE
+    -descripcion: VARCHAR
+    -estadoPlan<<FK>>:INTEGER
+}
+
+entity TipoDocente {
+    -id <<PK>>: SERIAL
+    -nombre: VARCHAR
+    -descripcion: VARCHAR
+}
+
+entity TipoEvaluacion {
+    -id <<PK>>: SERIAL
+    -nombre: VARCHAR
+    -descripcion: VARCHAR
+}
+
+entity TurnoDeCursado {
+    -id <<PK>>: SERIAL
+    -nombre: VARCHAR
+    -descripcion: VARCHAR
+}
+
+
+entity CatedraxAlumno {
+    -id <<PK>>: SERIAL
+    -idCatedra <<FK>>: INTEGER
+    -idAlumno <<FK>>: INTEGER
+}
+
+entity CatedraxComision {
+    -id <<PK>>: SERIAL
+    -idCatedra <<FK>>: INTEGER
+    -idComision <<FK>>: INTEGER
+}
+
+entity CatedraxCorrelativa {
+    -id <<PK>>: SERIAL
+    -idCatedra <<FK>>: INTEGER
+    -idCatedraCorrelativa <<FK>>: INTEGER
+}
+
+entity CatedraxDocentexTipoDocente {
+    -id <<PK>>: SERIAL
+    -idDocentexTipoDocente <<FK>>: INTEGER
+    -idCatedra <<FK>>: INTEGER
+    -idTipoDocente <<FK>>: INTEGER
+}
+
+entity CatedraxPlanEstudioxNivel {
+    -id <<PK>>: SERIAL
+    -idCatedra <<FK>>: INTEGER
+    -idPlanEstudio <<FK>>: INTEGER
+    -idNivel <<FK>> : INTEGER
+}
+
+entity ComisionxAula {
+    -id <<PK>>: SERIAL
+    -idComision <<FK>>: INTEGER
+    -idAula <<FK>>: INTEGER
+}
+
+entity DepartamentoxDocente {
+    -id <<PK>>: SERIAL
+    -idDepartamento <<FK>>: INTEGER
+    -idDocente <<FK>>: INTEGER
+}
+
+entity InstanciaEvaluativaxAlumno {
+    -id <<PK>>: SERIAL
+    -idInstanciaEvaluativa <<FK>>: INTEGER
+    -idAlumno <<FK>>: INTEGER
+}
+
+
+'Plan Academico
+
+entity EstadoPlan{
+    -id<<PK>>:SERIAL
+    -nombre:VARCHAR
+}
+
+entity Catedra{
+    -id<<PK>>: SERIAL
+    -nombre:VARCHAR
+    -tipoCatedra<<FK>>:INTEGER
+    -idRegimen<<FK>>:INTEGER
+}
+
+
+entity Carrera{
+    -id<<PK>>: SERIAL
+    -nombre: VARCHAR
+    -facultadRegional<<FK>>: INTEGER
+}
+
+entity Regimen {
+    -id<<PK>>: SERIAL
+    -nombre: VARCHAR
+}
+
+entity TipoCatedra {
+    -id<<PK>>: SERIAL
+    -nombre: VARCHAR
+}
+
+entity FacultadRegional {
+    -id<<PK>>: SERIAL
+    -nombre: VARCHAR
+    -localidad<FK>: INTEGER
+}
+
+entity Localidad {
+    -id<<PK>>: SERIAL
+    -nombre: VARCHAR  
+}
+
+
+'--EXAMENES--
+'---Definición de entidades ---
+entity Nota {
+
+    -notaNumerica <<PK>>: INTEGER
+    -notaTexto: VARCHAR
+    -descripcion: VARCHAR
+
+}
+
+entity Acta {
+    -idFolioTomo <<PK>>:INTEGER
+    -fechaEmision :DATE 
+    -capacidad :INTEGER 
+    -idInstanciaExamen<<FK>>:INTEGER
+    -folio: INTEGER
+    -tomo: INTEGER
+}
+
+entity Tribunal {
+    -id <<PK>>:INTEGER
+    '-- Esto ver diagrama de quienes modelan profesores, si no iría foreignKey(idProfesor)
+    -presidente <<FK>>:INTEGER
+    -primerVocal <<FK>>:INTEGER
+    -segundoVocal <<FK>>:INTEGER
+}
+
+entity InstanciaExamen {
+    -id <<PK>>: SERIAL
+    '-- relacion con catedra --'
+    -idCatedra <<FK>>:INTEGER
+    -fechaHora: DATE
+    -idTurno <<FK>>:INTEGER
+    -idTribunal <<FK>>:INTEGER
+    -idAula <<FK>>: INTEGER
+}
+
+'incripto examen - detalle de examen
+entity Detalle_Examen{
+    -idAlumnoxInstanciaExamen <<PK>>:SERIAL
+    '-- relación con alumno --'
+    -idAlumno <<FK>>:INTEGER
+    -idNotaNumerica <<FK>>:INTEGER
+    -idInstanciaExamen <<FK>>:INTEGER
+    -idTurno <<FK>>: INTEGER
+    -fechaExamen: DATE
+}
+
+'Seminario ingreso
+
+entity SeminarioIngreso {
+    - id<<PK>>:SERIAL
+    - fechaInicioSeminario:DATE
+    - fechaFinSeminario:DATE
+    - fechaInicioInscripcion:DATE
+    - fechaFinInscripcion:DATE
+    - tipoSeminario<<FK>>:INTEGER
+}
+
+entity DetalleSeminarioIngreso {
+    -id<<PK>>: SERIAL
+    -catedra<<FK>>: INTEGER
+    -fechaInicio: DATE
+    -cantidadClases: INTEGER
+}
+
+entity TipoSeminarioIngreso {
+    -id<<PK>>: SERIAL
+    -nombre: VARCHAR
+    -descripcion: VARCHAR
+}
+
+'Ciclo lectivo
+
+entity CicloLectivo {
+    -idCicloLectivo<<PK>>: SERIAL 
+    -fechaInicio: DATE
+    -fechaFinal: DATE
+    -fechaInicioRecesoInvierno: DATE
+    -fechaFinRecesoInvierno: DATE
+    -fechaInicioCursado: DATE
+    -fechaFinCursado: DATE
+    -descripcion: VARCHAR 
+}
+
+entity DetalleCarreras {
+    -id<<PK>>: SERIAL 
+    -idCicloLectivo<<FK>>: INTEGER 
+    -idCarrera<<FK>>: INTEGER 
+}
+
+entity Nivel {
+    -id<<PK>>: SERIAL 
+}
+
+entity Departamento {
+    -id<<PK>>: SERIAL 
+    -nombre: VARCHAR
+}
+
+entity Comision {
+    -id<<PK>>: SERIAL 
+    -nombre: VARCHAR
+}
+
+entity PeriodoExamen {
+    -id<<PK>>: SERIAL 
+    -fechaInicio: DATE
+    -fechaFin: DATE
+    -fechaInicioInscripcion: DATE
+    -fechaFinInscripcion: DATE
+    -esMovil: BOOL
+    -idCicloLectivo<<FK>>: INTEGER 
+}
+
+entity FechaImportante {
+    -id<<PK>>: SERIAL 
+    -fecha: DATE
+    -descripcion: VARCHAR
+    -idCicloLectivo<<FK>>: INTEGER 
+}  
+
+entity PeriodoEncuestaDocente {
+    - id<<PK>>: INTEGER 
+    - fechaInicio: DATE
+    - fechaFin: DATE
+    - idCicloLectivo<<FK>>: INTEGER 
+}
+
+entity BedelxTurnoDeCursado{
+    -id<<PK>> : INTEGER
+    -idBedel<<FK>> : INTEGER
+    -idTurnoDeCursado<<FK>> : INTEGER
+}
+
+PeriodoEncuestaDocente }|--||CicloLectivo
+
+PeriodoExamen }|--||CicloLectivo
+
+FechaImportante }|--||CicloLectivo
+
+DetalleCarreras }|--||CicloLectivo
+DetalleCarreras }|--||Carrera
+
+PlanEstudio }|--||Carrera
+
+Bedel||--|{ BedelxTurnoDeCursado
+
+TurnoDeCursado||--|{ BedelxTurnoDeCursado
+
+InstanciaEvaluativa }|--|| TipoEvaluacion
+
+Catedra }|--|| TurnoDeCursado
+
+
+CatedraxAlumno }|--|| Alumno
+CatedraxAlumno }|--|| Catedra
+
+CatedraxComision }|--|| Catedra
+CatedraxComision }|--|| Comision
+
+CatedraxCorrelativa }|--|| Catedra
+CatedraxCorrelativa }|--|| Catedra
+
+CatedraxDocentexTipoDocente }|--|| Catedra
+CatedraxDocentexTipoDocente }|--|| Docente
+CatedraxDocentexTipoDocente }|--|| TipoDocente
+
+CatedraxPlanEstudioxNivel }|--|| Catedra
+CatedraxPlanEstudioxNivel }|--|| PlanEstudio
+CatedraxPlanEstudioxNivel }|--|| Nivel
+
+ComisionxAula }|--|| Aula
+ComisionxAula }|--|| Comision
+
+DepartamentoxDocente }|--|| Departamento
+DepartamentoxDocente }|--|| Docente
+
+InstanciaEvaluativaxAlumno }|--|| Alumno
+InstanciaEvaluativaxAlumno }|--|| InstanciaEvaluativa
+
+PlanEstudio }|--|| EstadoPlan
+
+Catedra ||--|| Regimen
+Catedra }|--|| TipoCatedra
+Carrera }|--|| FacultadRegional
+
+FacultadRegional }|--|| Localidad
+
+Nota ||--o{ Detalle_Examen
+
+Detalle_Examen }|--|| InstanciaExamen
+Detalle_Examen }|--|| Acta
+
+Tribunal ||--|{ InstanciaExamen
+
+PeriodoExamen ||--|{ InstanciaExamen
+
+Acta }|--||InstanciaExamen 
+
+InstanciaExamen }o--|| Catedra
+
+Docente ||--o{Tribunal
+Docente ||--o{Tribunal
+Docente ||--o{Tribunal
+
+InstanciaExamen }o--|| Aula
+
+
+SeminarioIngreso ||--|{ DetalleSeminarioIngreso
+SeminarioIngreso }|--|| TipoSeminarioIngreso
+
+DetalleSeminarioIngreso }|--|| Catedra
+
+@enduml

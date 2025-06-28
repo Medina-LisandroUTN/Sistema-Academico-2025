@@ -1,0 +1,84 @@
+@startuml PlanAcademico
+hide circle
+
+entity PlanAcademico{
+    id<<PK>>
+    nombre
+    fechaInicioVigencia
+    estadoPlan<<FK>>
+    carrera<<FK>>
+}
+
+entity DetallePlan{
+    id<<PK>>
+    nivelCatedra
+    catedra<<FK>>
+    regimen<<FK>>
+}
+
+entity EstadoPlan{
+    id<<PK>>
+    nombre
+}
+
+entity Catedra{
+    id<<PK>>
+    nombre
+    tipoCatedra<<FK>>
+}
+
+entity Correlativa{
+    id<<PK>>
+    catedra<<FK>>
+    tipoCorrelativa<<FK>>
+}
+
+entity TipoCorrelativa{
+    id<<PK>>
+    nombre
+}
+
+entity Carrera{
+    id<<PK>>
+    nombre
+    facultadRegional<<FK>>
+}
+
+entity Regimen {
+    id<<PK>>
+    nombre
+}
+
+entity TipoCatedra {
+    id<<PK>>
+    nombre
+}
+
+entity FacultadRegional {
+    id<<PK>>
+    nombre
+    localidad<FK>
+}
+
+entity Localidad {
+    id<<PK>>
+    nombre  
+}
+
+Carrera ||-d-|{ PlanAcademico
+
+PlanAcademico ||-d-|{ DetallePlan
+PlanAcademico }|-r-|| EstadoPlan
+
+DetallePlan ||-d-|{ Catedra
+DetallePlan }|-l-|| Regimen
+
+Correlativa }|-l-|| TipoCorrelativa
+Correlativa }o-r-|| Catedra
+
+Catedra }|-r-|| TipoCatedra
+
+Carrera }|-l-|| FacultadRegional
+
+FacultadRegional }|-l-|| Localidad
+@enduml
