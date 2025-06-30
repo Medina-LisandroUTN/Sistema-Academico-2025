@@ -22,7 +22,6 @@ entity Aula {
 entity Catedra {
     - id <<PK>>: SERIAL
     - descripcion: VARCHAR
-    - idPlanEstudio <<FK>>: INTEGER
     - idTurnoDeCursado <<FK>>: INTEGER
 }
 
@@ -144,7 +143,6 @@ entity EstadoPlan{
 }
 
 entity Catedra{
-    -id<<PK>>: SERIAL
     -nombre:VARCHAR
     -tipoCatedra<<FK>>:INTEGER
     -idRegimen<<FK>>:INTEGER
