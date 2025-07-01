@@ -65,6 +65,7 @@ entity PlanEstudio {
     -añoPlan: DATE
     -descripcion: VARCHAR
     -estadoPlan<<FK>>:INTEGER
+    -carrera<<FK>>:INTEGER
 }
 
 entity TipoDocente {
@@ -171,7 +172,6 @@ entity EstadoPlan{
 }
 
 entity Catedra{
-    -id<<PK>>: SERIAL
     -nombre:VARCHAR
     -tipoCatedra<<FK>>:INTEGER
     -idRegimen<<FK>>:INTEGER
@@ -269,6 +269,7 @@ entity SeminarioIngreso {
 entity DetalleSeminarioIngreso {
     -id<<PK>>: SERIAL
     -catedra<<FK>>: INTEGER
+    -seminarioIngreso<<FK>>:INTEGER
     -fechaInicio: DATE
     -cantidadClases: INTEGER
 }
