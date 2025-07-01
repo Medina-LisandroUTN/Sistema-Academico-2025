@@ -1,15 +1,23 @@
-@startuml Sistema Academico
+@startuml
 hide circle
 entity Alumno {
     - id <<PK>>: SERIAL
     - legajo: INTEGER
     - documento: INTEGER
-    - catedraCursadas: INTEGER
+    - catedrasCursadas: INTEGER
     - catedrasAprobadas: INTEGER
     - nombre: VARCHAR
     - apellido: VARCHAR
     - correo: VARCHAR
     - añoIngreso: INTEGER
+    - fechaNacimiento: DATE
+    - DNI : INTEGER
+}
+
+entity "CondiciónAcadémica" as CondicionAcademica {
+  +idCondiciónAcadémica : int <<PK>>
+  nombre : varchar
+  descripción : varchar
 }
 
 entity Aula {
@@ -52,13 +60,6 @@ entity InstanciaEvaluativa {
     - idTipoEvaluacion <<FK>>: INTEGER
 }
 
-entity Bedel {
-    - id <<PK>>: SERIAL
-    - nombre: VARCHAR
-    - apellido: VARCHAR
-    - legajo: INTEGER
-}
-
 entity PlanEstudio {
     -id <<PK>>: SERIAL
     -añoPlan: DATE
@@ -77,13 +78,6 @@ entity TipoEvaluacion {
     -nombre: VARCHAR
     -descripcion: VARCHAR
 }
-
-entity TurnoDeCursado {
-    -id <<PK>>: SERIAL
-    -nombre: VARCHAR
-    -descripcion: VARCHAR
-}
-
 
 entity CatedraxAlumno {
     -id <<PK>>: SERIAL
@@ -129,10 +123,43 @@ entity DepartamentoxDocente {
     -idDocente <<FK>>: INTEGER
 }
 
-entity InstanciaEvaluativaxAlumno {
+entity InstanciaEvaluativaxCatedraxAlumno {
     -id <<PK>>: SERIAL
     -idInstanciaEvaluativa <<FK>>: INTEGER
     -idAlumno <<FK>>: INTEGER
+}
+
+entity TurnoDeCursado {
+    -id <<PK>>: SERIAL
+    -nombre: VARCHAR
+    -descripcion: VARCHAR
+}
+
+
+'Asistencia
+entity "CondiciónAsistencia" as CondicionAsistencia {
+  +idCondiciónAsistencia : int <<PK>>
+  nombre : varchar
+  descripción : varchar
+}
+
+entity "AsistenciaxCatedraxAlumno" as AsistenciaxCatedraxAlumno {
+  +idAsistenciaPorAlumno : int <<PK>>
+  estadoAsitencia : bool
+  alumno : int <<FK>>
+  condicionAsistencia : int <<FK>>
+}
+
+entity "DetalleAsistencia" as DetalleAsistencia {
+  +idDetalleAsistencia : int <<PK>>
+  asistenciaPorAlumno : int <<FK>>
+}
+
+entity Bedel {
+    - id <<PK>>: SERIAL
+    - nombre: VARCHAR
+    - apellido: VARCHAR
+    - legajo: INTEGER
 }
 
 
@@ -179,13 +206,14 @@ entity Localidad {
 }
 
 
-'--EXAMENES--
+'Examenes
 '---Definición de entidades ---
 entity Nota {
 
     -notaNumerica <<PK>>: INTEGER
     -notaTexto: VARCHAR
     -descripcion: VARCHAR
+    -condicionAcademica : int <<FK>>
 
 }
 
@@ -357,8 +385,10 @@ ComisionxAula }|--|| Comision
 DepartamentoxDocente }|--|| Departamento
 DepartamentoxDocente }|--|| Docente
 
-InstanciaEvaluativaxAlumno }|--|| Alumno
-InstanciaEvaluativaxAlumno }|--|| InstanciaEvaluativa
+InstanciaEvaluativaxCatedraxAlumno }|--|| CatedraxAlumno
+InstanciaEvaluativaxCatedraxAlumno }|--|| InstanciaEvaluativa
+
+CondicionAcademica ||--o{ Nota
 
 PlanEstudio }|--|| EstadoPlan
 
@@ -395,4 +425,9 @@ SeminarioIngreso }|--|| TipoSeminarioIngreso
 
 DetalleSeminarioIngreso }|--|| Catedra
 
+Nota }|--|| InstanciaEvaluativaxCatedraxAlumno
+
+CatedraxAlumno ||--o{ AsistenciaxCatedraxAlumno
+CondicionAsistencia ||--o{ AsistenciaxCatedraxAlumno
+AsistenciaxCatedraxAlumno ||--o{ DetalleAsistencia
 @enduml
