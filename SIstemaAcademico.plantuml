@@ -3,7 +3,7 @@ hide circle
 entity Alumno {
     - id <<PK>>: SERIAL
     - legajo: INTEGER
-    - documento: INTEGER
+    - DNI: INTEGER
     - catedrasCursadas: INTEGER
     - catedrasAprobadas: INTEGER
     - nombre: VARCHAR
@@ -11,7 +11,6 @@ entity Alumno {
     - correo: VARCHAR
     - añoIngreso: INTEGER
     - fechaNacimiento: DATE
-    - DNI : INTEGER
 }
 
 entity "CondiciónAcadémica" as CondicionAcademica {
@@ -126,7 +125,7 @@ entity DepartamentoxDocente {
 entity InstanciaEvaluativaxCatedraxAlumno {
     -id <<PK>>: SERIAL
     -idInstanciaEvaluativa <<FK>>: INTEGER
-    -idAlumno <<FK>>: INTEGER
+    -idCatedraxAlumno <<FK>>: INTEGER
 }
 
 entity TurnoDeCursado {
@@ -146,8 +145,9 @@ entity "CondiciónAsistencia" as CondicionAsistencia {
 entity "AsistenciaxCatedraxAlumno" as AsistenciaxCatedraxAlumno {
   +idAsistenciaPorAlumno : int <<PK>>
   estadoAsitencia : bool
-  alumno : int <<FK>>
-  condicionAsistencia : int <<FK>>
+  idAlumno : int <<FK>>
+  idCondicionAsistencia : int <<FK>>
+  idDetalleAsistencia : int <<FK>>
 }
 
 entity "DetalleAsistencia" as DetalleAsistencia {
